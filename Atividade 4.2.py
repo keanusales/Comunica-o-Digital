@@ -28,4 +28,5 @@ def main():
 if __name__ == "__main__":
   reps = 1_000_000
   ttime = timeit(main, number = reps)
-  print(ttime / reps)
+  print(f"Média: {ttime / reps} seg.")
+  print(f"Total: {ttime} seg.")
