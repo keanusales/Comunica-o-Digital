@@ -1,4 +1,4 @@
-def transmit(data: int, gen: int):
+def transfer(data: int, gen: int):
   orddt = data.bit_length() - 1
   ordgn = gen.bit_length() - 1
   sumord = orddt + ordgn
@@ -19,7 +19,7 @@ def receiver(data: int, gen: int):
 
 def main():
   data, gen = 0b1101011011, 0b10011
-  res = transmit(data, gen)
+  res = transfer(data, gen)
   print(f"Resposta: {bin(res)}")
   res = receiver(res, gen)
   print(f"Checagem: {bin(res)}")
