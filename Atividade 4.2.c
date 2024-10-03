@@ -1,42 +1,41 @@
-#pragma once
-
-#include <stdint.h>
 #include <stdio.h>
 
-uint8_t order(uint64_t data) {
-  uint8_t bits = 0;
+typedef unsigned long long uint64;
+typedef unsigned char uint8;
+
+uint8 order(uint64 data) {
+  uint8 bits = 0;
   while (data >>= 1) bits++;
   return bits;
 }
 
-uint64_t transfer(uint64_t data, uint64_t gen) {
-  const uint8_t orddt = order(data);
-  const uint8_t ordgn = order(gen);
-  const uint8_t sumord = orddt + ordgn;
-  uint64_t temp = data << ordgn;
-  const uint64_t send = temp;
-  for (uint8_t i = 0; i <= orddt; i++)
+uint64 transfer(uint64 data, uint64 gen) {
+  uint8 orddt = order(data);
+  uint8 ordgn = order(gen);
+  uint8 sumord = orddt + ordgn;
+  uint64 temp = data << ordgn;
+  uint64 send = temp;
+  for (uint8 i = 0; i <= orddt; i++)
     if (temp & (1ull << (sumord - i)))
       temp ^= gen << (orddt - i);
   return send ^ temp;
 }
 
-uint64_t receiver(uint64_t data, uint64_t gen) {
-  const uint8_t orddt = order(data);
-  const uint8_t ordgn = order(gen);
-  const uint8_t sumord = orddt + ordgn;
-  for (uint8_t i = 0; i <= orddt; i++)
+uint64 receiver(uint64 data, uint64 gen) {
+  uint8 orddt = order(data);
+  uint8 ordgn = order(gen);
+  uint8 sumord = orddt + ordgn;
+  for (uint8 i = 0; i <= orddt; i++)
     if (data & (1ull << (sumord - i)))
       data ^= gen << (orddt - i);
   return data;
 }
 
 void main() {
-  uint64_t res;
-  const uint64_t gen = 0b10011;
-  const uint64_t data = 0b1101011011;
-  res = transfer(data, gen);
-  printf("Resposta: %llu\n", res);
-  res = receiver(res, gen);
-  printf("Checagem: %llu\n", res);
+  uint64 gen = 0b10011;
+  uint64 data = 0b1101011011;
+  uint64 res1 = transfer(data, gen);
+  printf("Resposta: %llu\n", res1);
+  uint64 res2 = receiver(res1, gen);
+  printf("Checagem: %llu\n", res2);
 }
