@@ -31,7 +31,7 @@ uint64_t receiver(uint64_t data, uint64_t gen) {
   return data;
 }
 
-int main() {
+void main() {
   uint64_t res;
   const uint64_t gen = 0b10011;
   const uint64_t data = 0b1101011011;
@@ -39,5 +39,4 @@ int main() {
   printf("Resposta: %llu\n", res);
   res = receiver(res, gen);
   printf("Checagem: %llu\n", res);
-  return 0;
 }
