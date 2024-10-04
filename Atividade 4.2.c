@@ -13,8 +13,8 @@ uint64 transfer(uint64 data, uint64 gen) {
   uint8 orddt = order(data);
   uint8 ordgn = order(gen);
   uint8 sumord = orddt + ordgn;
-  uint64 temp = data << ordgn;
-  uint64 send = temp;
+  uint64 send = data << ordgn;
+  uint64 temp = send;
   for (uint8 i = 0; i <= orddt; i++)
     if (temp & (1ull << (sumord - i)))
       temp ^= gen << (orddt - i);
