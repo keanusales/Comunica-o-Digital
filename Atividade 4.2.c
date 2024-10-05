@@ -10,24 +10,23 @@ uint8 order(uint64 data) {
 }
 
 uint64 transfer(uint64 data, uint64 gen) {
-  uint8 orddt = order(data);
-  uint8 ordgn = order(gen);
-  uint8 sumord = orddt + ordgn;
-  uint64 send = data << ordgn;
-  uint64 temp = send;
-  for (uint8 i = 0; i <= orddt; i++)
-    if (temp & (1ull << (sumord - i)))
-      temp ^= gen << (orddt - i);
-  return send ^ temp;
+  uint8 odata = order(data);
+  uint8 orgen = order(gen);
+  uint8 smord = odata + orgen;
+  uint64 send = data << orgen;
+  uint64 rest = send;
+  for (uint8 i = 0; i <= odata; i++)
+    if (rest & (1ull << (smord - i)))
+      rest ^= gen << (odata - i);
+  return send ^ rest;
 }
 
 uint64 receiver(uint64 data, uint64 gen) {
-  uint8 orddt = order(data);
-  uint8 ordgn = order(gen);
-  uint8 sumord = orddt + ordgn;
-  for (uint8 i = 0; i <= orddt; i++)
-    if (data & (1ull << (sumord - i)))
-      data ^= gen << (orddt - i);
+  uint8 odata = order(data);
+  uint8 smord = odata - order(gen);
+  for (uint8 i = 0; i <= smord; i++)
+    if (data & (1ull << (odata - i)))
+      data ^= gen << (smord - i);
   return data;
 }
 
