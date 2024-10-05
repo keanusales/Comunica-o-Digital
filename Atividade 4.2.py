@@ -1,20 +1,20 @@
 def transfer(data: int, gen: int):
-  orddt = data.bit_length() - 1
-  ordgn = gen.bit_length() - 1
-  sumord = orddt + ordgn
-  send = temp = data << ordgn
-  for i in range(orddt + 1):
-    if temp & (1 << (sumord - i)):
-      temp ^= gen << (orddt - i)
-  return send ^ temp
+  odata = data.bit_length() - 1
+  orgen = gen.bit_length() - 1
+  order = odata + orgen
+  send = rest = data << orgen
+  for i in range(odata + 1):
+    if rest & (1 << (order - i)):
+      rest ^= gen << (odata - i)
+  return send ^ rest
 
 def receiver(data: int, gen: int):
-  orddt = data.bit_length() - 1
-  ordgn = gen.bit_length() - 1
-  sumord = orddt + ordgn
-  for i in range(orddt + 1):
-    if data & (1 << (sumord - i)):
-      data ^= gen << (orddt - i)
+  odata = data.bit_length() - 1
+  orgen = gen.bit_length() - 1
+  order = odata - orgen
+  for i in range(order + 1):
+    if data & (1 << (odata - i)):
+      data ^= gen << (order - i)
   return data
 
 def main():
