@@ -3,8 +3,8 @@
 # cython: language_level = 3, cdivision = True
 
 cdef extern from "crc.h" nogil:
-  ctypedef unsigned long long uint64
-  ctypedef unsigned char uint8
+  ctypedef unsigned uint64
+  ctypedef unsigned uint8
   uint8 __order__"order"(uint64)
   uint64 __transfer__"transfer"(uint64, uint64)
   uint64 __receiver__"receiver"(uint64, uint64)
